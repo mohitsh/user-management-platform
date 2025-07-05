@@ -8,3 +8,4 @@ class User(BaseModel):
     email: EmailStr  # entity level validation
     company: str
     jobTitle: str
+    is_deleted: bool = False
