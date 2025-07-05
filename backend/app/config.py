@@ -1,1 +1,1 @@
-DATA_FILE_PATH = "..data/users.json"
+DATA_FILE_PATH = "data/users.json"

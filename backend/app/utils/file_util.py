@@ -9,7 +9,9 @@ class FileUtil:
         if self.file_exists():
             with open(DATA_FILE_PATH, "r") as f:
                 return json.load(f)
-        return None
+        else: # self healing, lazy initialization of data.
+            self.write_data({"users": []})
+            return {"users": []}
 
     def write_data(self, data):
         with open(DATA_FILE_PATH, "w") as f:

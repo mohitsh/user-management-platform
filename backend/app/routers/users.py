@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from ..repositories.user_repository import UserRepository
 from ..schemas.user import UserCreate, UserUpdate
@@ -13,7 +13,11 @@ user_service = UserService(user_repository)
 
 @router.get("/api/users")
 def get_users():
-    return {}
+    # try:
+    users = user_service.get_all_users()
+    return {"success": True, "users": users}
+    # except Exception as e:
+    #     raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
 @router.post("/api/users")

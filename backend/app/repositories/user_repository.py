@@ -10,6 +10,8 @@ class UserRepository:
 
     def get_all_users(self):
         user_data = self.conn.read_data()
+        if user_data is None:
+            return {}
         # filter deleted users
         active_users = [User(**user) for user in user_data["users"] if not user.get("is_deleted", False)]
         return active_users
