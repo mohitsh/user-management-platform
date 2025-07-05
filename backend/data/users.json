@@ -1,3 +1,13 @@
 {
-  "users": []
+  "users": [
+    {
+      "uuid": "4bf83e91-ae31-4f3d-9ba7-4bce28d34179",
+      "name": "string",
+      "surname": "string",
+      "email": "user@example.com",
+      "company": "string",
+      "jobTitle": "string",
+      "is_deleted": false
+    }
+  ]
 }
