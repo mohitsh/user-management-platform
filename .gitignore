@@ -1,6 +1,9 @@
 .idea/
 backend/app/__pycache__/
 
+*__pycache*
+
+
 # Logs
 logs
 *.log
