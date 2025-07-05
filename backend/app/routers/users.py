@@ -34,4 +34,11 @@ def create_users(user_create: UserCreate):
 
 @router.put("/api/users/{uuid}")
 def update_user(uuid: str, user_update: UserUpdate):
-    return {}
+    try:
+        user = user_service.update_user(uuid, user_update)
+        if user:
+            return {"success": True, "user": user}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Internal Server Error")
