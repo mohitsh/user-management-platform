@@ -40,17 +40,35 @@ const App = () => {
   }, []);
 
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted: ', formData);
-    // clear form
-    setFormData({
-      name: '',
-      surname: '',
-      email: '',
-      company: '',
-      jobTitle: ''
-    });
+
+    try {
+      const response = await fetch('http://localhost:8000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to create user: ${response.status}`);
+      }
+
+      const newUser = await response.json();
+      console.log('Created user: ', newUser);
+
+      // add to user list immediately
+      setUsers(prev => [...prev, newUser.user]);
+
+      // clear form
+      setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
+    } catch (err) {
+      console.error('Failed to create user: ', err);
+      alert('Failed to create user!');
+    }
   };
 
 
