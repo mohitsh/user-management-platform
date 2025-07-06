@@ -5,6 +5,7 @@ const App = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [editingUser, setEditingUser] = useState<any>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -72,9 +73,24 @@ const App = () => {
   };
 
 
+  const handleEdit = (user: any) => {
+    console.log('Editing user: ', user);
+    setEditingUser(user);
+
+    // populate form with user data
+    setFormData({
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      company: user.company,
+      jobTitle: user.jobTitle
+    });
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
 
   return (
     <div className="App">
@@ -98,6 +114,7 @@ const App = () => {
                     <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
                     <th style={{ border: '1px solid #ddd', padding: '8px' }}>Email</th>
                     <th style={{ border: '1px solid #ddd', padding: '8px' }}>Company</th>
+                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Edit</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,6 +123,15 @@ const App = () => {
                       <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.name} {user.surname}</td>
                       <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.email}</td>
                       <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.company}</td>
+                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                        <button
+                          onClick={() => handleEdit(user)}
+                          style={{ padding: '5px 10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '3px', cursor: 'pointer' }}
+                        >
+                          Edit
+                        </button>
+                      </td>
+
                     </tr>
                   ))}
                 </tbody>
