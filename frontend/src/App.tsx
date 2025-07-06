@@ -44,28 +44,64 @@ const App = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted: ', formData);
+    console.log('editing mode: ', editingUser ? 'update' : 'create'); // see post or put 
 
     try {
-      const response = await fetch('http://localhost:8000/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      let response: any;
+      let updatedUser: any;
 
-      if (!response.ok) {
-        throw new Error(`Failed to create user: ${response.status}`);
+      if (editingUser) {
+        // PUT request 
+        response = await fetch(`http://localhost:8000/api/users/${editingUser.uuid}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to update user: ${response.status}`);
+        }
+        const result = await response.json();
+        updatedUser = result.user; // Adjust based on your backend response structure
+        console.log('Updated user:', updatedUser);
+
+        // update the user in the list
+        setUsers(prev => prev.map(u =>
+          u.uuid === editingUser.uuid ? updatedUser : u
+        ));
+
+        // clear editing state
+        setEditingUser(null);
+
+        // clear form data
+        setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
+      }
+      else {
+        response = await fetch('http://localhost:8000/api/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to create user: ${response.status}`);
+        }
+
+        const newUser = await response.json();
+        console.log('Created user: ', newUser);
+
+        // add to user list immediately
+        setUsers(prev => [...prev, newUser.user]);
+
+        // clear form
+        setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
       }
 
-      const newUser = await response.json();
-      console.log('Created user: ', newUser);
 
-      // add to user list immediately
-      setUsers(prev => [...prev, newUser.user]);
-
-      // clear form
-      setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
     } catch (err) {
       console.error('Failed to create user: ', err);
       alert('Failed to create user!');
@@ -141,7 +177,7 @@ const App = () => {
 
         {/* Right side - Form */}
         <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px' }}>
-          <h2>Add User</h2>
+          <h2>{editingUser ? 'Edit User' : 'Add User'}</h2>
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '10px' }}>
               <input
@@ -193,7 +229,9 @@ const App = () => {
                 style={{ width: '100%', padding: '5px' }}
               />
             </div>
-            <button type="submit" style={{ padding: '10px 20px' }}>Add User</button>
+            <button type="submit" style={{ padding: '10px 20px' }}>
+              {editingUser ? 'Update User' : 'Add User'}
+            </button>
           </form>
         </div>
       </div>
