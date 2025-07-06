@@ -8,6 +8,15 @@
       "company": "Uber",
       "jobTitle": "string",
       "is_deleted": false
+    },
+    {
+      "uuid": "8713a65b-ac72-4003-ae2a-51469b715e85",
+      "name": "string",
+      "surname": "string",
+      "email": "user@example.com",
+      "company": "string",
+      "jobTitle": "string",
+      "is_deleted": false
     }
   ]
 }
