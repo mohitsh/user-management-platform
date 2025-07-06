@@ -5,7 +5,7 @@
       "name": "tapan",
       "surname": "string",
       "email": "tapan@mail.com",
-      "company": "Uber",
+      "company": "Google",
       "jobTitle": "string",
       "is_deleted": false
     },
@@ -16,6 +16,96 @@
       "email": "user@example.com",
       "company": "string",
       "jobTitle": "string",
+      "is_deleted": false
+    },
+    {
+      "uuid": "cc1f44a5-e7f0-4341-8e43-2e337edfeed9",
+      "name": "Aditya",
+      "surname": "Jain",
+      "email": "adi@jain.com",
+      "company": "JP Morgan",
+      "jobTitle": "Director of Trading",
+      "is_deleted": false
+    },
+    {
+      "uuid": "6bafe5cd-cd99-4c15-b37e-4e0795053201",
+      "name": "Namit",
+      "surname": "Mittal",
+      "email": "mittal@trade.com",
+      "company": "Mittal ",
+      "jobTitle": "CEO",
+      "is_deleted": false
+    },
+    {
+      "uuid": "79b46e97-b31f-43c3-8967-1739a771fd98",
+      "name": "Suraj ",
+      "surname": "Bhadu",
+      "email": "bhadu@mail.com",
+      "company": "Bhadu Corp",
+      "jobTitle": "CPO",
+      "is_deleted": false
+    },
+    {
+      "uuid": "6dc11ee0-faca-459e-ab4d-27230e61e195",
+      "name": "tapan",
+      "surname": "string",
+      "email": "tapan@mail.com",
+      "company": "Google",
+      "jobTitle": "string",
+      "is_deleted": false
+    },
+    {
+      "uuid": "4596c05a-cf72-4c17-9af4-2a86ea8722d2",
+      "name": "Ashok",
+      "surname": "Kumar",
+      "email": "ahok@kumar.com",
+      "company": "Facebook",
+      "jobTitle": "VP of Engineering",
+      "is_deleted": false
+    },
+    {
+      "uuid": "8a11dd08-fc57-436b-81e3-19a5a08211e8",
+      "name": "Ravi",
+      "surname": "Sinha",
+      "email": "sinha@ravi.com",
+      "company": "Amazon",
+      "jobTitle": "AVP",
+      "is_deleted": false
+    },
+    {
+      "uuid": "e263cf11-3ee2-4f3f-a87a-3b26658fb32a",
+      "name": "GUrdeep",
+      "surname": "Laban",
+      "email": "labaan@mail.com",
+      "company": "Zoomcar",
+      "jobTitle": "APC",
+      "is_deleted": false
+    },
+    {
+      "uuid": "0cbbfe54-5ff7-47e4-8798-a2310f089b76",
+      "name": "Santhosh",
+      "surname": "GV",
+      "email": "gv@mail.com",
+      "company": "Morgan Stanley",
+      "jobTitle": "SWD",
+      "is_deleted": false
+    },
+    {
+      "uuid": "d1c567c8-24e4-4d54-855f-94e8a815ee25",
+      "name": "a",
+      "surname": "b",
+      "email": "mohitsh114@gmail.com",
+      "company": "GS",
+      "jobTitle": "Associate Director",
+      "is_deleted": false
+    },
+    {
+      "uuid": "37b5ed02-3382-455b-aefd-1a06b016fc0e",
+      "name": "vishal",
+      "surname": "Ramrakhyani",
+      "email": "vishal@gmail.com",
+      "company": "DB",
+      "jobTitle": "VP of Tech",
       "is_deleted": false
     }
   ]
