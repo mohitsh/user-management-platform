@@ -158,7 +158,7 @@ const App = () => {
 
       <div className="app-container">
         {/* left side: table */}
-        <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px', overflowX: 'auto',  width: '100%'}}>
+        <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px', overflowX: 'auto', width: '100%' }}>
           <h2>Users from backend</h2>
 
           {loading && <p>Loading...</p>}
@@ -169,24 +169,28 @@ const App = () => {
           {!loading && !error && users.length > 0 &&
             (
               <div className="table-container">
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}
+                  role='table'
+                  aria-label='Users data table'
+                >
                   <thead>
-                    <tr>
-                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
-                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Email</th>
-                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Company</th>
-                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Edit</th>
+                    <tr role='row'>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }} role='columnheader'>Name</th>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }} role='columnheader'>Email</th>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }} role='columnheader'>Company</th>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }} role='columnheader'>Edit</th>
                     </tr>
                   </thead>
                   <tbody>
                     {users.map(user => (
-                      <tr key={user.uuid}>
-                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.name} {user.surname}</td>
-                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.email}</td>
-                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.company}</td>
-                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                      <tr key={user.uuid} role='row'>
+                        <td role='cell' style={{ border: '1px solid #ddd', padding: '8px' }}>{user.name} {user.surname}</td>
+                        <td role='cell' style={{ border: '1px solid #ddd', padding: '8px' }}>{user.email}</td>
+                        <td role='cell' style={{ border: '1px solid #ddd', padding: '8px' }}>{user.company}</td>
+                        <td role='cell' style={{ border: '1px solid #ddd', padding: '8px' }}>
                           <button
                             onClick={() => handleEdit(user)}
+                            aria-label={`Edit user ${user.name} ${user.surname}`}
                             style={{ padding: '5px 10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '3px', cursor: 'pointer' }}
                           >
                             Edit
@@ -204,59 +208,72 @@ const App = () => {
         {/* Right side - Form */}
         <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px' }}>
           <h2>{editingUser ? 'Edit User' : 'Add User'}</h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} role='form' aria-label='User information form' >
             <div style={{ marginBottom: '10px' }}>
+              <label htmlFor='name' className='visually-hidden'>Name</label>
               <input
                 type="text"
                 name="name"
                 placeholder="Name"
                 value={formData.name}
                 onChange={handleChange}
+                aria-required='true'
+                aria-describedby={formErrors.name ? 'name-error' : undefined}
                 style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
+              <label htmlFor='surname' className='visually-hidden'>Name</label>
               <input
                 type="text"
                 name="surname"
                 placeholder="Surname"
                 value={formData.surname}
                 onChange={handleChange}
+                aria-required='true'
                 style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
+              <label htmlFor='email' className='visually-hidden'>Name</label>
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
+                aria-required='true'
                 style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
+              <label htmlFor='company' className='visually-hidden'>Name</label>
               <input
                 type="text"
                 name="company"
                 placeholder="Company"
                 value={formData.company}
                 onChange={handleChange}
+                aria-required='true'
                 style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
+              <label htmlFor='jobTitle' className='visually-hidden'>Name</label>
               <input
                 type="text"
                 name="jobTitle"
                 placeholder="Job Title"
                 value={formData.jobTitle}
                 onChange={handleChange}
+                aria-required='true'
                 style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
               {formErrors.name && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.name}</div>}
             </div>
-            <button type="submit" style={{ padding: '10px 20px' }}>
+            <button type="submit"
+              aria-label={editingUser ? `Update user ${editingUser.name}` : 'Add new user'}
+              style={{ padding: '10px 20px' }}>
               {editingUser ? 'Update User' : 'Add User'}
             </button>
           </form>
