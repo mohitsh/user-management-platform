@@ -2,6 +2,11 @@
 
 CRUD application with React + TypeScript frontend and Python FastAPI backend.
 
+- `frontend` -> react app
+- `backend` -> FastAPI
+- `docs/system-design.pdf` -> system design for Document Processing Platform
+
+
 ## Features
 
 - **CRUD Operations**: Create, read, update users
