@@ -156,9 +156,9 @@ const App = () => {
     <div className="App">
       <h1>User Management - testing backend conn</h1>
 
-      <div style={{ display: 'flex', gap: '20px' }}>
-        {/* Left side - Table */}
-        <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px' }}>
+      <div className="app-container">
+        {/* left side: table */}
+        <div style={{ flex: 1, border: '1px solid #ccc', padding: '10px', overflowX: 'auto',  width: '100%'}}>
           <h2>Users from backend</h2>
 
           {loading && <p>Loading...</p>}
@@ -168,34 +168,36 @@ const App = () => {
 
           {!loading && !error && users.length > 0 &&
             (
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr>
-                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
-                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Email</th>
-                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Company</th>
-                    <th style={{ border: '1px solid #ddd', padding: '8px' }}>Edit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map(user => (
-                    <tr key={user.uuid}>
-                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.name} {user.surname}</td>
-                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.email}</td>
-                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.company}</td>
-                      <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-                        <button
-                          onClick={() => handleEdit(user)}
-                          style={{ padding: '5px 10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '3px', cursor: 'pointer' }}
-                        >
-                          Edit
-                        </button>
-                      </td>
-
+              <div className="table-container">
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Email</th>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Company</th>
+                      <th style={{ border: '1px solid #ddd', padding: '8px' }}>Edit</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {users.map(user => (
+                      <tr key={user.uuid}>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.name} {user.surname}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.email}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.company}</td>
+                        <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                          <button
+                            onClick={() => handleEdit(user)}
+                            style={{ padding: '5px 10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '3px', cursor: 'pointer' }}
+                          >
+                            Edit
+                          </button>
+                        </td>
+
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
         </div>
 

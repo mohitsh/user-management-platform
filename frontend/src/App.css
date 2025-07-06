@@ -1,3 +1,27 @@
+.app-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+}
+
+/* mobile devices */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 10px;
+    gap: 10px;
+  }
+}
+
 body {
   margin: 0;
   color: #fff;
@@ -23,4 +47,20 @@ body {
   font-size: 1.2rem;
   font-weight: 400;
   opacity: 0.5;
+}
+
+.app-container>div {
+  padding: 20px;
+}
+
+.App h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; 
+
 }
