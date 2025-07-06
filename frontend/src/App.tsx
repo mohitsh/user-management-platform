@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import { userService } from './services/userService';
 
 const App = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -21,17 +22,11 @@ const App = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        console.log('Trying to fetch users...');
-        const response = await fetch('http://127.0.0.1:8000/api/users');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Got users:', data);
-        setUsers(data.users);
+        setLoading(true);
         setError('');
-      } catch (err) {
+        const usersData = await userService.getUsers();
+        setUsers(usersData);
+      } catch (err: any) {
         console.log('Fetch failed: ', err);
         setError('Backend connection failed.');
       } finally {
@@ -39,6 +34,7 @@ const App = () => {
       }
     };
     fetchUsers();
+
   }, []);
 
 
@@ -58,20 +54,8 @@ const App = () => {
       let updatedUser: any;
 
       if (editingUser) {
-        // PUT request 
-        response = await fetch(`http://localhost:8000/api/users/${editingUser.uuid}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to update user: ${response.status}`);
-        }
-        const result = await response.json();
-        updatedUser = result.user; // Adjust based on your backend response structure
+        // PUT request
+        const updatedUser = await userService.updateUser(editingUser.uuid, formData);
         console.log('Updated user:', updatedUser);
 
         // update the user in the list
@@ -86,23 +70,11 @@ const App = () => {
         setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
       }
       else {
-        response = await fetch('http://localhost:8000/api/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to create user: ${response.status}`);
-        }
-
-        const newUser = await response.json();
+        const newUser = await userService.createUser(formData);
         console.log('Created user: ', newUser);
 
-        // add to user list immediately
-        setUsers(prev => [...prev, newUser.user]);
+        // add to user list immediately  
+        setUsers(prev => [...prev, newUser]);
 
         // clear form
         setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
