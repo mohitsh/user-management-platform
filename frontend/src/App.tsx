@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { userService } from './services/userService';
+import { validateUserForm } from './utils/formValidation';
 
 const App = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -44,15 +45,14 @@ const App = () => {
     console.log('editing mode: ', editingUser ? 'update' : 'create'); // see post or put 
 
     // validate first 
-    if (!validateForm()) {
+    const validation = validateUserForm(formData);
+    if (!validation.isValid) {
+      setFormErrors(validation.errors);
       console.log('Form validation failed');
       return;
     }
 
     try {
-      let response: any;
-      let updatedUser: any;
-
       if (editingUser) {
         // PUT request
         const updatedUser = await userService.updateUser(editingUser.uuid, formData);
@@ -104,25 +104,12 @@ const App = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // clear error when user starts typing
+    if (formErrors[e.target.name]) {
+      setFormErrors({ ...formErrors, [e.target.name]: '' });
+    }
   };
 
-  // form validation function
-  const validateForm = () => {
-    const errors: any = {};
-
-    if (!formData.name.trim()) errors.name = 'Name is required';
-    if (!formData.surname.trim()) errors.surname = 'Surname is required';
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Please enter a valid email address';
-    }
-    if (!formData.company.trim()) errors.company = 'Company is required';
-    if (!formData.jobTitle.trim()) errors.jobTitle = 'Job title is required';
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  }
 
   return (
     <div className="App">
@@ -193,9 +180,11 @@ const App = () => {
                 aria-describedby={formErrors.name ? 'name-error' : undefined}
                 style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
+              {formErrors.name && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.name}</div>}
+
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <label htmlFor='surname' className='visually-hidden'>Name</label>
+              <label htmlFor='surname' className='visually-hidden'>Surname</label>
               <input
                 type="text"
                 name="surname"
@@ -203,11 +192,12 @@ const App = () => {
                 value={formData.surname}
                 onChange={handleChange}
                 aria-required='true'
-                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.surname ? '2px solid red' : '1px solid #ccc' }}
               />
+              {formErrors.surname && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.surname}</div>}
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <label htmlFor='email' className='visually-hidden'>Name</label>
+              <label htmlFor='email' className='visually-hidden'>Email</label>
               <input
                 type="email"
                 name="email"
@@ -215,11 +205,12 @@ const App = () => {
                 value={formData.email}
                 onChange={handleChange}
                 aria-required='true'
-                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.email ? '2px solid red' : '1px solid #ccc' }}
               />
+              {formErrors.email && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.email}</div>}
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <label htmlFor='company' className='visually-hidden'>Name</label>
+              <label htmlFor='company' className='visually-hidden'>Company</label>
               <input
                 type="text"
                 name="company"
@@ -227,11 +218,12 @@ const App = () => {
                 value={formData.company}
                 onChange={handleChange}
                 aria-required='true'
-                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.company ? '2px solid red' : '1px solid #ccc' }}
               />
+              {formErrors.company && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.company}</div>}
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <label htmlFor='jobTitle' className='visually-hidden'>Name</label>
+              <label htmlFor='jobTitle' className='visually-hidden'>Job Title</label>
               <input
                 type="text"
                 name="jobTitle"
@@ -239,9 +231,9 @@ const App = () => {
                 value={formData.jobTitle}
                 onChange={handleChange}
                 aria-required='true'
-                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.jobTitle ? '2px solid red' : '1px solid #ccc' }}
               />
-              {formErrors.name && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.name}</div>}
+              {formErrors.jobTitle && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.jobTitle}</div>}
             </div>
 
             <div style={{ display: 'flex', gap: '10px' }}>
