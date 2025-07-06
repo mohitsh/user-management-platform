@@ -6,6 +6,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editingUser, setEditingUser] = useState<any>(null);
+  const [formErrors, setFormErrors] = useState<any>({});
 
   const [formData, setFormData] = useState({
     name: '',
@@ -45,6 +46,12 @@ const App = () => {
     e.preventDefault();
     console.log('Form submitted: ', formData);
     console.log('editing mode: ', editingUser ? 'update' : 'create'); // see post or put 
+
+    // validate first 
+    if (!validateForm()) {
+      console.log('Form validation failed');
+      return;
+    }
 
     try {
       let response: any;
@@ -127,6 +134,23 @@ const App = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // form validation function
+  const validateForm = () => {
+    const errors: any = {};
+
+    if (!formData.name.trim()) errors.name = 'Name is required';
+    if (!formData.surname.trim()) errors.surname = 'Surname is required';
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (!formData.company.trim()) errors.company = 'Company is required';
+    if (!formData.jobTitle.trim()) errors.jobTitle = 'Job title is required';
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  }
 
   return (
     <div className="App">
@@ -186,7 +210,7 @@ const App = () => {
                 placeholder="Name"
                 value={formData.name}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
@@ -196,7 +220,7 @@ const App = () => {
                 placeholder="Surname"
                 value={formData.surname}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
@@ -206,7 +230,7 @@ const App = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
@@ -216,7 +240,7 @@ const App = () => {
                 placeholder="Company"
                 value={formData.company}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
@@ -226,8 +250,9 @@ const App = () => {
                 placeholder="Job Title"
                 value={formData.jobTitle}
                 onChange={handleChange}
-                style={{ width: '100%', padding: '5px' }}
+                style={{ width: '100%', padding: '5px', border: formErrors.name ? '2px solid red' : '1px solid #ccc' }}
               />
+              {formErrors.name && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.name}</div>}
             </div>
             <button type="submit" style={{ padding: '10px 20px' }}>
               {editingUser ? 'Update User' : 'Add User'}
