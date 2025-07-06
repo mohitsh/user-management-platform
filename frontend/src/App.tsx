@@ -271,11 +271,30 @@ const App = () => {
               />
               {formErrors.name && <div style={{ color: 'red', fontSize: '12px' }}>{formErrors.name}</div>}
             </div>
-            <button type="submit"
-              aria-label={editingUser ? `Update user ${editingUser.name}` : 'Add new user'}
-              style={{ padding: '10px 20px' }}>
-              {editingUser ? 'Update User' : 'Add User'}
-            </button>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button type="submit"
+                aria-label={editingUser ? `Update user ${editingUser.name}` : 'Add new user'}
+                style={{ padding: '10px 20px' }}>
+                {editingUser ? 'Update User' : 'Add User'}
+              </button>
+
+              {editingUser && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingUser(null);
+                    setFormData({ name: '', surname: '', email: '', company: '', jobTitle: '' });
+                    setFormErrors({});
+                  }}
+                  aria-label="Cancel editing"
+                  style={{ padding: '10px 20px', backgroundColor: '#ccc' }}
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+
           </form>
         </div>
       </div>
